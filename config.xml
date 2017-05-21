@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.inf1i.waterup" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>WaterUp-App</name>
+    <name>WaterUp</name>
     <description>
-        Hello World sample application that responds to the deviceready event.
+        WaterUp app for project innovate.
     </description>
-    <author email="support@phonegap.com" href="http://phonegap.com">
-        PhoneGap Team
+    <author email="jaroen.eefting@student.stenden.com" href="http://jaroeneefting.com">
+        INF1I
     </author>
     <content src="index.html" />
 	<preference name="orientation" value="portrait" />
