@@ -1,7 +1,11 @@
 # WaterUp - Mobile application
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/13ca7bb85bd149bb961e0047e1e720b9)](https://www.codacy.com/app/jorisrietveld/WaterUp-App?utm_source=github.com&utm_medium=referral&utm_content=INF1I/WaterUp-App&utm_campaign=badger) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/INF1I/WaterUp-App/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/INF1I/WaterUp-App/?branch=master) ![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)
+This repository contains the source code of the WaterUp mobile application that
+is used to receive pot statistics, warnings and plant information. After installing
+this application you can scan the QR code on the pot that will register you and
+te pot to the server so you can communicate with the pot.
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/13ca7bb85bd149bb961e0047e1e720b9)](https://www.codacy.com/app/jorisrietveld/WaterUp-App?utm_source=github.com&utm_medium=referral&utm_content=INF1I/WaterUp-App&utm_campaign=badger)
-
+## About the project
 We are developing an internet of things device as part of the project
 innovate at Stenden University of applied sciences. In this project
 we are free to develop an product based on the internet of things.
@@ -20,7 +24,11 @@ will also be used to configure the right plant species by taking an
 picture of the plant, and let machine learning classify the species.
 
 ## Documentation
-Documentation for this project will follow.
+There is documentation available about configuring an development
+environment, the application structure and technologies used. You can find
+it [here](documentation/readme.md). If your having any trouble
+setting up your development environment, configuration
+or have some suggestions please submit an [issue here](https://github.com/INF1I/WaterUp-App/issues/new).
 
 ## Repository Authors
 Rick Margés - rick.marges@student.stenden.com<br>
