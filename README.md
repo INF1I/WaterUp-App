@@ -1,4 +1,7 @@
 # WaterUp - Mobile application
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/13ca7bb85bd149bb961e0047e1e720b9)](https://www.codacy.com/app/jorisrietveld/WaterUp-App?utm_source=github.com&utm_medium=referral&utm_content=INF1I/WaterUp-App&utm_campaign=badger)
+
 We are developing an internet of things device as part of the project
 innovate at Stenden University of applied sciences. In this project
 we are free to develop an product based on the internet of things.
