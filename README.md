@@ -1,5 +1,5 @@
 # WaterUp - Mobile application
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/13ca7bb85bd149bb961e0047e1e720b9)](https://www.codacy.com/app/jorisrietveld/WaterUp-App?utm_source=github.com&utm_medium=referral&utm_content=INF1I/WaterUp-App&utm_campaign=badger) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/INF1I/WaterUp-App/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/INF1I/WaterUp-App/?branch=master) ![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/13ca7bb85bd149bb961e0047e1e720b9)](https://www.codacy.com/app/jorisrietveld/WaterUp-App?utm_source=github.com&utm_medium=referral&utm_content=INF1I/WaterUp-App&utm_campaign=badger) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/INF1I/WaterUp-App/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/INF1I/WaterUp-App/?branch=master) ![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)<br/>
 This repository contains the source code of the WaterUp mobile application that
 is used to receive pot statistics, warnings and plant information. After installing
 this application you can scan the QR code on the pot that will register you and
