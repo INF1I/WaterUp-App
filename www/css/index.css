@@ -6,14 +6,14 @@ body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-color:#444444;
-    background-attachment:fixed;
-    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
-    font-size:12px;
-    height:100%;
-    margin:0px;
-    padding:0px;
-    text-transform:uppercase;
+    background-color: #434053;
+    background-attachment: fixed;
+    font-family: 'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    text-transform: uppercase;
 }
 
 .app {
@@ -23,14 +23,46 @@ body {
 }
 
 .loadingScreen{
-    background: url(../img/logo.png) no-repeat center top;
-    height: 235px;
+    background-color: #434053;
+    height: 100%;
     width: 100%;
-    position: relative;
-    color: #FFFFFF;
     font-size: 30px;
     letter-spacing: 2px;
-    margin-top: 45%;
+}
+
+.splash_main {
+    height: auto;
+    width: 80%;
+    margin: 0 auto;
+    background-color: #434053;
+    margin-bottom: 10%;
+}
+
+.outer_logo {
+    background-color: #434053;
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.splash_title {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.splash_header {
+    background-color: #434053;
+    padding-top: 8%;
+    width: 100%;
+    height: 17%;
+}
+
+.splash_logo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
 .loadingScreen > .text{

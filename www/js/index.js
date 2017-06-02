@@ -26,7 +26,7 @@ var app = {
 				$('.potOverview').fadeIn('slow');
 			});
 		}, 2000);
- 
-		$('.potOverview > .text').append('now you can do shit');
+
+		// $('.potOverview > .text').append('now you can do shit');
     }
 };
