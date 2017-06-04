@@ -41,7 +41,7 @@ Alwin Kroesen - alwin.kroesen@student.stenden.com<br>
 Joris Rietveld - jorisrietveld@gmail.com<br>
 Fekke Fekkes - fekke.fekkes@student.stenden.com<br>
 Rick Margés - rick.marges@student.stenden.com<br>
-Jeroen Eefting - jeroen.eefting@student.stenden.com<br>
+Jaroen Eefting - jeroen.eefting@student.stenden.com<br>
 Roelof Doevendans - roelof.doevendans@student.stenden.com<br>
 
 ## Licencing
