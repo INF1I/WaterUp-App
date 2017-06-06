@@ -45,6 +45,7 @@ body {
 	margin-bottom: 10px!important;
 	color: #f3f3f3;
 	font-size: 12px;
+	text-transform: none!important;
 }
 
 .modal-footer{
