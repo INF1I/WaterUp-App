@@ -12,6 +12,9 @@
         },
         "phonegap-plugin-barcodescanner": {
             "PACKAGE_NAME": "ga.inf1i.WaterUp"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "ga.inf1i.WaterUp"
         }
     },
     "dependent_plugins": {}

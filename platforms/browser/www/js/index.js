@@ -31,25 +31,39 @@ var app = {
 			cordova.plugins.barcodeScanner.scan(
 				function (result) {
 					if(result.cancelled != true){
-						console.log("not canceled");
 						//TODO: make a check to actually check it scanned a good qr code and not a random one.
-						$('#row').append('<div class="col-xs-6 circle" id="'+result.text+'" data-thickness="3"></div>');
+						$.ajax({
+							 url:"http://www.jaroeneefting.com/school/stenden/sites/waterupapi/insertpot.php?uuid=qwe",
+							 dataType: 'jsonp',
+							 success:function(response){
+								var data = JSON.parse(JSON.stringify(response));
+								 if(data == 'success'){
+									$('#row').append('<div class="col-xs-6 circle" id="'+result.text+'" data-thickness="3"><span class="imagePot"></span></div>');
+					
+									var c4 = $('.circle');
 
-						$('.circle').circleProgress({
-							startAngle: -Math.PI / 2,
-							value: 0.70,
-							reverse: true,
-							lineCap: 'round',
-							fill: {gradient: ['#4CD2FF', '#006CD9']}
-						});
-						
-						$("#row > .add").remove();
-						$('#row').append('<div class="col-xs-6 add"><i class="fa fa-plus fa-5x" aria-hidden="true"></i></div>');
-						
-						// alert("We got a barcode\n" +
-						// "Result: " + result.text + "\n" +
-						// "Format: " + result.format + "\n" +
-						// "Cancelled: " + result.cancelled);							
+									c4.circleProgress({
+										startAngle: -Math.PI / 2,
+										value: 0.00,
+										lineCap: 'round',
+										fill: {gradient: ['#4CD2FF', '#006CD9']}
+									});
+									
+									$("#row > .add").remove();
+									$('#row').append('<div class="col-xs-6 add"><i class="fa fa-plus fa-5x" aria-hidden="true"></i></div>');
+									
+									// alert("We got a barcode\n" +
+									// "Result: " + result.text + "\n" +
+									// "Format: " + result.format + "\n" +
+									// "Cancelled: " + result.cancelled);
+								}else if(data == 'failed'){
+									alert("Could not add pot to database.");
+								}
+							 },
+							 error:function(){
+								 alert("Error");
+							 }      
+						});							
 					}
 				},
 				function (error) {
