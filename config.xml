@@ -8,7 +8,7 @@
         INF1I
     </author>
     <content src="index.html" />
-	<icon src="res/icon.png" />
+    <icon src="res/icon.png" />
     <preference name="orientation" value="portrait" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="14" />

@@ -11,7 +11,7 @@
 	<meta http-equiv="Content-Security-Policy" content="default-src *; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; media-src *; img-src * data:;" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/index.css" />
-    <title>Hello World</title>
+    <title>WaterUp</title>
 </head>
     <body>
 		<div class="app">
@@ -24,7 +24,6 @@
 			<div class="main hide">		
 				<div class="header">
 					<div class="options">
-						<span class="option">add</span>
 						<span class="option">mqtt</span>
 					</div>
 					<div class="header_logo">
@@ -32,22 +31,9 @@
 					</div>
 				</div>
 				<div class="pageView">
-					<p>Content of current page will be displayed here.</p>
-					<p>Content of current page will be displayed here.</p>
-					<p>Content of current page will be displayed here.</p>
-					<p>Content of current page will be displayed here.</p>
-					<p>Content of current page will be displayed here.</p>
-					<p>Content of current page will be displayed here.</p>
-					v
-					<p>Content of current page will be displayed here.</p>
-					<p>Content of current page will be displayed here.</p><p>Content of current page will be displayed here.</p>
-					<p>Content of current page will be displayed here.</p>
-					<p>Content of current page will be displayed here.</p>
-					<p>Content of current page will be displayed here.</p>
-					<p>Content of current page will be displayed here.</p>
-					<p>Content of current page will be displayed here.</p>
-					<p>Content of current page will be displayed here.</p>
-					
+					<div class="container">
+						<div class="row" id="row"></div>
+					</div>
 				</div>
 				
 				<!-- this is a modal template. you can ignore this and call it whenever you need a modal. You can fill it up by using js-->
@@ -79,6 +65,8 @@
 		<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		<script src="js/browserMqtt.js" type="text/javascript"></script>
+		<script type="text/javascript" src="js/circle-progress.js"></script>
+		<script src="https://use.fontawesome.com/926077661f.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
     </body>
