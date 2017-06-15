@@ -13,6 +13,7 @@ var app = {
 	
     // Update DOM on a Received Event
     receivedEvent: function(id) {
+		var deviceid = device.uuid;
 		//NOTE: the pot overview is already in the DOM. The splashscreen is just a layer that peels off.
 		setTimeout(function() {   
 		    $('.loadingScreen').fadeOut('slow', function() {
@@ -96,6 +97,11 @@ var app = {
 				client.on("message", function (topic, payload) {
 					$( ".pageView" ).append('Topic = '+topic+', Message = '+payload+'.<br>');
 				})
+			}
+			if($(this).html() == 'id'){
+				console.log("clicked on id: "+deviceid);
+				$( ".pageView" ).empty();
+				$( ".pageView" ).append(deviceid);
 			}
 		});
     },

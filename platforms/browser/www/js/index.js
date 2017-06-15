@@ -13,6 +13,7 @@ var app = {
 	
     // Update DOM on a Received Event
     receivedEvent: function(id) {
+		var deviceid = device.uuid;
 		//NOTE: the pot overview is already in the DOM. The splashscreen is just a layer that peels off.
 		setTimeout(function() {   
 		    $('.loadingScreen').fadeOut('slow', function() {
@@ -33,7 +34,7 @@ var app = {
 					if(result.cancelled != true){
 						//TODO: make a check to actually check it scanned a good qr code and not a random one.
 						$.ajax({
-							 url:"http://www.jaroeneefting.com/school/stenden/sites/waterupapi/insertpot.php?uuid=qwe",
+							 url:"http://www.jaroeneefting.com/school/stenden/sites/waterupapi/insertpot.php?uuid=qwe", //DO NEXT: CHANGE qwe TO ACTUALLY BE THE UNIQUE DEVICE ID
 							 dataType: 'jsonp',
 							 success:function(response){
 								var data = JSON.parse(JSON.stringify(response));
@@ -57,11 +58,11 @@ var app = {
 									// "Format: " + result.format + "\n" +
 									// "Cancelled: " + result.cancelled);
 								}else if(data == 'failed'){
-									alert("Could not add pot to database.");
+									alert("Could not add pot to database.1");
 								}
 							 },
 							 error:function(){
-								 alert("Error");
+								 alert("Could not add pot to database.2");
 							 }      
 						});							
 					}
@@ -96,6 +97,11 @@ var app = {
 				client.on("message", function (topic, payload) {
 					$( ".pageView" ).append('Topic = '+topic+', Message = '+payload+'.<br>');
 				})
+			}
+			if($(this).html() == 'id'){
+				console.log("clicked on id: "+deviceid);
+				$( ".pageView" ).empty();
+				$( ".pageView" ).append(deviceid);
 			}
 		});
     },
