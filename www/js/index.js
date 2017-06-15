@@ -15,13 +15,31 @@ var app = {
     receivedEvent: function(id) {
 		var deviceid = device.uuid;
 		//NOTE: the pot overview is already in the DOM. The splashscreen is just a layer that peels off.
-		setTimeout(function() {   
+		setTimeout(function() {
+			//splashscreen
 		    $('.loadingScreen').fadeOut('slow', function() {
 				$('.loadingScreen').remove();
 				$('.main').removeClass('hide');
 				$('.main').fadeIn('slow');
 			});				
-
+			
+			//get any added pots from db
+			// $.ajax({
+				 // url:"http://www.jaroeneefting.com/school/stenden/sites/waterupapi/getpotten.php?uuid="+deviceid,
+				 // dataType: 'jsonp',
+				 // success:function(response){
+					// var data = JSON.parse(JSON.stringify(response));
+					 // if(data == 'success'){
+						
+					// }else if(data == 'failed'){
+						// alert("Could not retrieve potten.1");
+					// }
+				 // },
+				 // error:function(){
+					 // alert("Could not retrieve potten.2");
+				 // }      
+			// });	
+						
 			if($('#row').children().length == 0){
 				$('#row').prepend('<div class="col-xs-6 add"><i class="fa fa-plus fa-5x" aria-hidden="true"></i></div>');
 			}
@@ -32,39 +50,42 @@ var app = {
 			cordova.plugins.barcodeScanner.scan(
 				function (result) {
 					if(result.cancelled != true){
-						//TODO: make a check to actually check it scanned a good qr code and not a random one.
-						$.ajax({
-							 url:"http://www.jaroeneefting.com/school/stenden/sites/waterupapi/insertpot.php?uuid=qwe", //DO NEXT: CHANGE qwe TO ACTUALLY BE THE UNIQUE DEVICE ID
-							 dataType: 'jsonp',
-							 success:function(response){
-								var data = JSON.parse(JSON.stringify(response));
-								 if(data == 'success'){
-									$('#row').append('<div class="col-xs-6 circle" id="'+result.text+'" data-thickness="3"><span class="imagePot"></span></div>');
-					
-									var c4 = $('.circle');
-
-									c4.circleProgress({
-										startAngle: -Math.PI / 2,
-										value: 0.00,
-										lineCap: 'round',
-										fill: {gradient: ['#4CD2FF', '#006CD9']}
-									});
-									
-									$("#row > .add").remove();
-									$('#row').append('<div class="col-xs-6 add"><i class="fa fa-plus fa-5x" aria-hidden="true"></i></div>');
-									
-									// alert("We got a barcode\n" +
-									// "Result: " + result.text + "\n" +
-									// "Format: " + result.format + "\n" +
-									// "Cancelled: " + result.cancelled);
-								}else if(data == 'failed'){
-									alert("Could not add pot to database.1");
-								}
-							 },
-							 error:function(){
-								 alert("Could not add pot to database.2");
-							 }      
-						});							
+						var qr = JSON.parse(result.text);
+						//{"mac":"68:5D:43:40:D4:EF"}
+						if(result.text == JSON.stringify(qr)){
+							$.ajax({
+								 url:"http://www.jaroeneefting.com/school/stenden/sites/waterupapi/insertpot.php?uuid="+deviceid,
+								 dataType: 'jsonp',
+								 success:function(response){
+									var data = JSON.parse(JSON.stringify(response));
+									 if(data == 'success'){
+										$('#row').append('<div class="col-xs-6 circle" id="'+qr["mac"]+'" data-thickness="3"><span class="imagePot"></span></div>');
+						
+										$('.circle').circleProgress({
+											startAngle: -Math.PI / 2,
+											value: 0.00,
+											lineCap: 'round',
+											fill: {gradient: ['#4CD2FF', '#006CD9']}
+										});
+										
+										$("#row > .add").remove();
+										$('#row').append('<div class="col-xs-6 add"><i class="fa fa-plus fa-5x" aria-hidden="true"></i></div>');
+										
+										// alert("We got a barcode\n" +
+										// "Result: " + result.text + "\n" +
+										// "Format: " + result.format + "\n" +
+										// "Cancelled: " + result.cancelled);
+									}else if(data == 'failed'){
+										alert("Could not add pot to database.1");
+									}
+								 },
+								 error:function(){
+									 alert("Could not add pot to database.2");
+								 }      
+							});	
+						}else{
+							alert("Given QR code is invalid.");
+						}						
 					}
 				},
 				function (error) {
@@ -101,7 +122,7 @@ var app = {
 			if($(this).html() == 'id'){
 				console.log("clicked on id: "+deviceid);
 				$( ".pageView" ).empty();
-				$( ".pageView" ).append(deviceid);
+				$( ".pageView" ).append("dit is id van phone: s"+deviceid);
 			}
 		});
     },
