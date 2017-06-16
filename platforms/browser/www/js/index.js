@@ -15,28 +15,27 @@ var app = {
     receivedEvent: function(id) {
 		var deviceid = device.uuid;
 		//NOTE: the pot overview is already in the DOM. The splashscreen is just a layer that peels off.
-		setTimeout(function() {   
+		setTimeout(function() {
+			//splashscreen
 		    $('.loadingScreen').fadeOut('slow', function() {
 				$('.loadingScreen').remove();
 				$('.main').removeClass('hide');
 				$('.main').fadeIn('slow');
 			});				
-
-			// $.ajax({
-				 // url:"http://www.jaroeneefting.com/school/stenden/sites/waterupapi/getpotten.php?",
-				 // dataType: 'jsonp',
-				 // success:function(response){
-					// var data = JSON.parse(JSON.stringify(response));
-					 // if(data == 'success'){
-						
-					// }else if(data == 'failed'){
-						// alert("Could not retrieve potten.1");
-					// }
-				 // },
-				 // error:function(){
-					 // alert("Could not retrieve potten.2");
-				 // }      
-			// });	
+			
+			//get any added pots from db
+			$.ajax({
+				 url:"http://www.jaroeneefting.com/school/stenden/sites/waterupapi/getpotten.php?uuid="+deviceid,
+				 dataType: 'jsonp',
+				 success:function(response){
+					//var data = JSON.parse(JSON.stringify(response));
+					alert("yes");
+					console.log(JSON.parse(JSON.stringify(response)));
+				 },
+				 error:function(){
+					 alert("Could not retrieve potten.2");
+				 }      
+			});	
 						
 			if($('#row').children().length == 0){
 				$('#row').prepend('<div class="col-xs-6 add"><i class="fa fa-plus fa-5x" aria-hidden="true"></i></div>');
@@ -50,11 +49,9 @@ var app = {
 					if(result.cancelled != true){
 						var qr = JSON.parse(result.text);
 						//{"mac":"68:5D:43:40:D4:EF"}
-						console.log(qr);
 						if(result.text == JSON.stringify(qr)){
-							//TODO: make a check to actually check it scanned a good qr code and not a random one.
 							$.ajax({
-								 url:"http://www.jaroeneefting.com/school/stenden/sites/waterupapi/insertpot.php?uuid="+deviceid,
+								 url:"http://www.jaroeneefting.com/school/stenden/sites/waterupapi/insertpot.php?mac="+qr["mac"]+"&uuid="+deviceid,
 								 dataType: 'jsonp',
 								 success:function(response){
 									var data = JSON.parse(JSON.stringify(response));

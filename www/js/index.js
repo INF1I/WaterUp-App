@@ -24,21 +24,18 @@ var app = {
 			});				
 			
 			//get any added pots from db
-			// $.ajax({
-				 // url:"http://www.jaroeneefting.com/school/stenden/sites/waterupapi/getpotten.php?uuid="+deviceid,
-				 // dataType: 'jsonp',
-				 // success:function(response){
-					// var data = JSON.parse(JSON.stringify(response));
-					 // if(data == 'success'){
-						
-					// }else if(data == 'failed'){
-						// alert("Could not retrieve potten.1");
-					// }
-				 // },
-				 // error:function(){
-					 // alert("Could not retrieve potten.2");
-				 // }      
-			// });	
+			$.ajax({
+				 url:"http://www.jaroeneefting.com/school/stenden/sites/waterupapi/getpotten.php?uuid="+deviceid,
+				 dataType: 'jsonp',
+				 success:function(response){
+					//var data = JSON.parse(JSON.stringify(response));
+					alert("yes");
+					console.log(JSON.parse(JSON.stringify(response)));
+				 },
+				 error:function(){
+					 alert("Could not retrieve potten.2");
+				 }      
+			});	
 						
 			if($('#row').children().length == 0){
 				$('#row').prepend('<div class="col-xs-6 add"><i class="fa fa-plus fa-5x" aria-hidden="true"></i></div>');
@@ -54,7 +51,7 @@ var app = {
 						//{"mac":"68:5D:43:40:D4:EF"}
 						if(result.text == JSON.stringify(qr)){
 							$.ajax({
-								 url:"http://www.jaroeneefting.com/school/stenden/sites/waterupapi/insertpot.php?uuid="+deviceid,
+								 url:"http://www.jaroeneefting.com/school/stenden/sites/waterupapi/insertpot.php?mac="+qr["mac"]+"&uuid="+deviceid,
 								 dataType: 'jsonp',
 								 success:function(response){
 									var data = JSON.parse(JSON.stringify(response));
