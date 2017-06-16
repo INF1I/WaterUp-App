@@ -30,6 +30,14 @@ var app = {
 				 success:function(response){
 					//var data = JSON.parse(JSON.stringify(response));
 					alert(JSON.stringify(response));
+					$('#row').append('<div class="col-xs-6 circle" id="68:5D:43:40:D4:EF" data-thickness="3"><span class="imagePot"></span></div>'); //DO NEXT: CHANGE IT SO IT DYNAMICLY GETS THE MAC.
+						
+					$('.circle').circleProgress({
+						startAngle: -Math.PI / 2,
+						value: 0.00,
+						lineCap: 'round',
+						fill: {gradient: ['#4CD2FF', '#006CD9']}
+					});
 				 },
 				 error:function(){
 					 alert("Could not retrieve potten.2");

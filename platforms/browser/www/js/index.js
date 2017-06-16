@@ -29,8 +29,7 @@ var app = {
 				 dataType: 'jsonp',
 				 success:function(response){
 					//var data = JSON.parse(JSON.stringify(response));
-					alert("yes");
-					console.log(JSON.parse(JSON.stringify(response)));
+					alert(JSON.stringify(response));
 				 },
 				 error:function(){
 					 alert("Could not retrieve potten.2");
