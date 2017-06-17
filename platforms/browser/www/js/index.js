@@ -28,8 +28,23 @@ var app = {
 				 url:"http://www.jaroeneefting.com/school/stenden/sites/waterupapi/getpotten.php?uuid="+deviceid,
 				 dataType: 'jsonp',
 				 success:function(response){
-					//var data = JSON.parse(JSON.stringify(response));
-					alert(JSON.stringify(response));
+					var data = JSON.stringify(response);
+					alert(data["mac"]);
+					//DO FIRST: CHECK IF ANY RESULTS ARE FOUND, ONLY IF SOMETHING IS FOUND ADD IT TO DOM.
+					//DO NEXT: IT DOESNT SHOW!!!! (MAYBE IT DOES FIX FIRST ONE THEN CHANGE IT AGAIN)
+					//DO AFTER THOSE 2: CHANGE IT SO IT DYNAMICLY GETS THE MAC.
+					//DO AFTER THE REST OF THE APP IS DONE: MAKE IT A LOOP SO MORE POTS CAN SHOW (lol)
+					$('#row').append('<div class="col-xs-6 circle" id="68:5D:43:40:D4:EF" data-thickness="3"><span class="imagePot"></span></div>');
+					
+					$('.circle').circleProgress({
+						startAngle: -Math.PI / 2,
+						value: 0.00,
+						lineCap: 'round',
+						fill: {gradient: ['#4CD2FF', '#006CD9']}
+					});
+					
+					$("#row > .add").remove();
+					$('#row').append('<div class="col-xs-6 add"><i class="fa fa-plus fa-5x" aria-hidden="true"></i></div>');
 				 },
 				 error:function(){
 					 alert("Could not retrieve potten.2");
