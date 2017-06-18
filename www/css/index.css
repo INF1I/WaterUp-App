@@ -15,7 +15,7 @@ canvas {
 .imagePot{
     text-align: center;
     font-size: 12px;
-    z-index: 999;
+    z-index: 998;
     position: absolute;
     width: 40%;
     height: 40%;
@@ -86,7 +86,7 @@ body {
 }
 
 .modal-footer{
-	padding: 0px!important;
+	padding: 5px!important
 }
 
 .loadingScreen{

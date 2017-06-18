@@ -15,7 +15,7 @@ canvas {
 .imagePot{
     text-align: center;
     font-size: 12px;
-    z-index: 999;
+    z-index: 998;
     position: absolute;
     width: 40%;
     height: 40%;
@@ -25,8 +25,8 @@ canvas {
 }
 
 i{
-    opacity: 0.1;
-    color: black;
+    opacity: 1.0;
+    color: #a3a9c1;
     display: block!important;
     margin-left: 25%;
     margin-top: 25%;
@@ -86,7 +86,7 @@ body {
 }
 
 .modal-footer{
-	padding: 0px!important;
+	padding: 5px!important
 }
 
 .loadingScreen{
