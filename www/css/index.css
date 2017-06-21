@@ -3,6 +3,22 @@
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
 
+*:hover{
+	outline: none;
+}
+
+*:focus{
+	outline: none;
+}
+
+*:active{
+	outline: none;
+}
+
+*:visited{
+	outline: none;
+}
+
 canvas { 
   width: 100%!important;
   height: auto!important;
@@ -22,6 +38,21 @@ canvas {
     left: 30%;
     top: 33%;
     color: #a3a9c1;
+}
+
+.realImagePot{
+    background-image: url(../img/plants/1.png);
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    text-align: center;
+    font-size: 12px;
+    z-index: 1;
+    position: absolute;
+    width: 40%;
+    height: 65%;
+    left: 28%;
+    top: 13%;
+	opacity: 0.8;
 }
 
 i{
@@ -76,17 +107,14 @@ body {
 }
 
 .modal-footer{
-	border-top: 1px solid #23282e!important;
+	border-top: 1px solid rgba(0, 0, 0, 0.26)!important;
+	padding: 5px!important
 }
 
 .modal-header .close {
     margin-top: 8px!important;
     margin-right: 12px!important;
 	color: #f3f3f3!important;
-}
-
-.modal-footer{
-	padding: 5px!important
 }
 
 .loadingScreen{
@@ -185,4 +213,61 @@ h1 {
 
 .hide{
 	display: none;
+}
+
+.mui-textfield>input, .mui-textfield>textarea {
+    border-bottom: 1px solid #a3a9c1;
+}
+
+.mui-textfield--float-label>label {
+    color: #a3a9c1!important;
+}
+
+.mui-textfield>input, .mui-textfield>textarea {
+    color: white!important;
+}
+
+.mui-textfield--float-label>input:focus~label, .mui-textfield--float-label>textarea:focus~label {
+	color:#2196F3!important;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #2196F3!important;
+    border-color: #2196F3!important;
+    text-align: center!important;
+    float: left;
+}
+
+.mui-select__menu{
+	background-color: #a3a9c1;
+	color: black;
+}
+
+.mui-select__menu>div:not(.mui-optgroup__label):not(.mui--is-disabled):hover {
+	background-color: #a3a9c1;
+}
+
+select{
+	color: #a3a9c1!important;
+}
+
+.mui-select>select {
+	font-size: 18px!important;
+}
+
+.mui-select{
+	padding-top: 0px!important;
+	margin-bottom: 10%!important;
+}
+
+.potname{
+    opacity: 0.8;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    margin-top: 150px;
+    text-align: center;
+    top: 0px;
+    word-wrap: break-word;
 }

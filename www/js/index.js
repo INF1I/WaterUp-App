@@ -1,3 +1,4 @@
+//TODO: SEE IF I CAN GET THE ID TO WORK INSTEAD OF CIRCLE. IT EDITS ALL POTS ATM.
 var app = {
     initialize: function() {
         this.bindEvents();
@@ -13,6 +14,10 @@ var app = {
 	
     // Update DOM on a Received Event
     receivedEvent: function(id) {
+		var potid;
+		var mqtt_received;
+		var waterlevel;
+		var enabletracking;
 		//remove ui loader element that bugs the app.
 		$('.ui-loader').remove();
 		//store users device id.
@@ -23,10 +28,19 @@ var app = {
 																	   password: 'password'})
 		//subscribe to every topic.(# = wildcard)
 		client.subscribe("#");
-		
-		//listen to any messages it receives.
+
+		//sets waterlevel on pot with plant everytime it receives mqtt messages.
 		client.on("message", function (topic, payload) {
-			//DO THINGS HERE, CAN MOVE THIS FUNCTION ANYWHERE
+			if(enabletracking == 1){
+				if(topic != potid){
+					mqtt_received = JSON.parse(payload);
+					console.log(mqtt_received);
+					waterlevel = mqtt_received["waterLevel"];
+					console.log(waterlevel);
+					$('.circle').circleProgress({ value: waterlevel / 100 });
+					$('.circle').circleProgress('redraw');
+				}
+			}
 		})
 		
 		//NOTE: the pot overview is already in the DOM. The splashscreen is just a layer that peels off.
@@ -105,6 +119,81 @@ var app = {
 			);
 		});
 		
+		//click pot to edit info or assign a plant.
+		$(document).on("click",".circle",function(e){
+			e.preventDefault();
+			potid = $(this).attr('id');
+			$('#modal_title').empty();
+			$('#modal_body_alerts').empty();
+			$('#modal_body_contents').empty();
+			$('.modal-footer').empty();
+			$('#modal_title').append('<center>Configuration</center>');
+			$('#modal_body_contents').append('<div class="mui-textfield mui-textfield--float-label plantname"><input type="text"><label>Pot name</label></div>');
+			$('#modal_body_contents').append('<div class="mui-select"><select id="list"><option value="0">Choose a plant</option><option value="0">No plant</option><option value="Primula">Primula</option><option value="Oleander">Oleander</option><option value="Kerstroos/Nieskruid">Kerstroos/Nieskruid</option><option value="Japanse Orchidee">Japanse Orchidee</option></select></div>');
+			
+			$('.modal-footer').append('<button type="button" class="btn btn-primary pull-left saveconfig">Save</button><button type="button" class="btn btn-default" data-dismiss="modal">Close</button>');
+
+			$('#modal_template').modal();
+		});
+		
+		//put all the info in db and handle the response.
+		$(document).on('click', '.saveconfig', function (e) {
+			e.preventDefault();
+			var plant_name = $('.mui--is-not-empty').val();
+			var plant_selected = $("#list option:selected").val();
+			console.log('clicked on save: '+ potid + ' ' + plant_selected);
+			$('#modal_template').modal('hide');
+			$.ajax({
+				 url:"http://www.jaroeneefting.com/school/stenden/sites/waterupapi/insertplant.php?mac="+potid+"&plantname="+plant_selected,
+				 dataType: 'jsonp',
+				 success:function(response){
+					var data = JSON.parse(JSON.stringify(response));
+					//alert(JSON.stringify(response));
+					if(data == 'deleted'){
+						enabletracking = 0;
+						
+						$('.circle .imagePot').remove();
+						$('.circle .realImagePot').remove();
+						$('.circle').append('<span class="imagePot"></span>');	
+
+						$('.circle').circleProgress({
+							startAngle: -Math.PI / 2,
+							value: 0.00,
+							lineCap: 'round',
+							fill: {gradient: ['#4CD2FF', '#006CD9']}
+						});						
+					}else if(data == 'failed'){
+						alert("Could not save configuration.1");
+					}else{
+						//tells the code to listen to mqtt.
+						enabletracking = 1;
+						
+						//puts value of pot at 100 and redraws.
+						$('.circle').circleProgress({ value: 1.00 });
+						$('.circle').circleProgress('redraw');
+						
+						//send plant data to mqtt
+						client.publish(potid, JSON.stringify(response)); 
+						
+						//add picture of plant 
+						$('.circle .imagePot').remove();
+						$('.circle .realImagePot').remove();
+						$('.circle').append('<span class="realImagePot"></span>');
+						$('.realImagePot').css('background-image','url(../img/plants/1.png)');
+						
+						//add pot name under pot
+						$('.potname').remove();
+						$('.circle').append('<span class="potname">'+plant_name+'</span>');
+					}
+				 },
+				 error:function(){
+					 alert("Could not save configuration.2");
+				 }      
+			});
+		});
+		
+		
+		//hold tap to delete pot
 		$(document).on("taphold",".circle",function(event){
 			//gets mac of the pot that got tabbed on.
 			var delete_pot = $(this).attr('id');
