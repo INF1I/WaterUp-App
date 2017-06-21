@@ -32,7 +32,7 @@ var app = {
 		//sets waterlevel on pot with plant everytime it receives mqtt messages.
 		client.on("message", function (topic, payload) {
 			if(enabletracking == 1){
-				if(topic != potid){
+				if(topic != "inf1i-plantpot/subscribe/config/plant-care"){
 					mqtt_received = JSON.parse(payload);
 					console.log(mqtt_received);
 					waterlevel = mqtt_received["waterLevel"];
@@ -128,8 +128,9 @@ var app = {
 			$('#modal_body_contents').empty();
 			$('.modal-footer').empty();
 			$('#modal_title').append('<center>Configuration</center>');
-			$('#modal_body_contents').append('<div class="mui-textfield mui-textfield--float-label plantname"><input type="text"><label>Pot name</label></div>');
-			$('#modal_body_contents').append('<div class="mui-select"><select id="list"><option value="0">Choose a plant</option><option value="0">No plant</option><option value="Primula">Primula</option><option value="Oleander">Oleander</option><option value="Kerstroos/Nieskruid">Kerstroos/Nieskruid</option><option value="Japanse Orchidee">Japanse Orchidee</option></select></div>');
+			$('#modal_body_contents').append('<form><div class="form-group"><label for="name">Pot name</label><input type="email" class="form-control" id="name" placeholder="Enter a pot name"></div>');
+
+			$('#modal_body_contents').append('<div class="form-group"><label for="plantselect">Choose a plant</label><select class="form-control" id="plantselect"><option value="0">No plant</option><option value="Primula">Primula</option><option value="Oleander">Oleander</option><option value="Kerstroos/Nieskruid">Kerstroos/Nieskruid</option><option value="Japanse Orchidee">Japanse Orchidee</option></select></div></form>');
 			
 			$('.modal-footer').append('<button type="button" class="btn btn-primary pull-left saveconfig">Save</button><button type="button" class="btn btn-default" data-dismiss="modal">Close</button>');
 
@@ -173,7 +174,7 @@ var app = {
 						$('.circle').circleProgress('redraw');
 						
 						//send plant data to mqtt
-						client.publish(potid, JSON.stringify(response)); 
+						client.publish("inf1i-plantpot/subscribe/config/plant-care", JSON.stringify(response)); 
 						
 						//add picture of plant 
 						$('.circle .imagePot').remove();
