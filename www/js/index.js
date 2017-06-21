@@ -128,7 +128,7 @@ var app = {
 			$('#modal_body_contents').empty();
 			$('.modal-footer').empty();
 			$('#modal_title').append('<center>Configuration</center>');
-			$('#modal_body_contents').append('<form><div class="form-group"><label for="name">Pot name</label><input type="email" class="form-control" id="name" placeholder="Enter a pot name"></div>');
+			$('#modal_body_contents').append('<form><div class="form-group"><label for="name">Pot name</label><input type="text" class="form-control" id="name" placeholder="Enter a pot name"></div>');
 
 			$('#modal_body_contents').append('<div class="form-group"><label for="plantselect">Choose a plant</label><select class="form-control" id="plantselect"><option value="0">No plant</option><option value="Primula">Primula</option><option value="Oleander">Oleander</option><option value="Kerstroos/Nieskruid">Kerstroos/Nieskruid</option><option value="Japanse Orchidee">Japanse Orchidee</option></select></div></form>');
 			
@@ -140,8 +140,8 @@ var app = {
 		//put all the info in db and handle the response.
 		$(document).on('click', '.saveconfig', function (e) {
 			e.preventDefault();
-			var plant_name = $('.mui--is-not-empty').val();
-			var plant_selected = $("#list option:selected").val();
+			var plant_name = $('#name').val();
+			var plant_selected = $("#plantselect option:selected").val();
 			console.log('clicked on save: '+ potid + ' ' + plant_selected);
 			$('#modal_template').modal('hide');
 			$.ajax({
@@ -156,6 +156,12 @@ var app = {
 						$('.circle .imagePot').remove();
 						$('.circle .realImagePot').remove();
 						$('.circle').append('<span class="imagePot"></span>');	
+						$('.potname').remove();
+						if(plant_name.length == 0){
+							$('.circle').append('<span class="potname"></span>');
+						}else{
+							$('.circle').append('<span class="potname">'+plant_name+'</span>');
+						}
 
 						$('.circle').circleProgress({
 							startAngle: -Math.PI / 2,
@@ -184,7 +190,12 @@ var app = {
 						
 						//add pot name under pot
 						$('.potname').remove();
-						$('.circle').append('<span class="potname">'+plant_name+'</span>');
+						if(plant_name.length == 0){
+							$('.circle').append('<span class="potname"></span>');
+						}else{
+							$('.circle').append('<span class="potname">'+plant_name+'</span>');
+						}
+						
 					}
 				 },
 				 error:function(){
