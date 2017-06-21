@@ -186,7 +186,7 @@ var app = {
 						$('.circle .imagePot').remove();
 						$('.circle .realImagePot').remove();
 						$('.circle').append('<span class="realImagePot"></span>');
-						$('.realImagePot').css('background-image','url(../img/plants/1.png)');
+						//$('.realImagePot').css('background-image','url(../img/plants/1.png)');
 						
 						//add pot name under pot
 						$('.potname').remove();
