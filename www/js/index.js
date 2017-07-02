@@ -1,4 +1,3 @@
-//TODO: SEE IF I CAN GET THE ID TO WORK INSTEAD OF CIRCLE. IT EDITS ALL POTS ATM.
 var app = {
     initialize: function() {
         this.bindEvents();
@@ -14,10 +13,13 @@ var app = {
 	
     // Update DOM on a Received Event
     receivedEvent: function(id) {
+		//initialize some global variables.
 		var potid;
 		var mqtt_received;
 		var waterlevel;
 		var enabletracking;
+		var via_deleted;
+		
 		//remove ui loader element that bugs the app.
 		$('.ui-loader').remove();
 		//store users device id.
@@ -34,9 +36,7 @@ var app = {
 			if(enabletracking == 1){
 				if(topic != "inf1i-plantpot/subscribe/config/plant-care"){
 					mqtt_received = JSON.parse(payload);
-					console.log(mqtt_received);
 					waterlevel = mqtt_received["waterLevel"];
-					console.log(waterlevel);
 					$('.circle').circleProgress({ value: waterlevel / 100 });
 					$('.circle').circleProgress('redraw');
 				}
@@ -62,7 +62,7 @@ var app = {
 
 		//when person clicked on plus sign, launch qr scanner.
 		$(document).on('click', '.add', function (e) {
-			console.log("clicked on adddd");
+			e.preventDefault();
 			cordova.plugins.barcodeScanner.scan(
 				function (result) {
 					if(result.cancelled != true){
@@ -75,7 +75,7 @@ var app = {
 								 dataType: 'jsonp',
 								 success:function(response){
 									var data = JSON.parse(JSON.stringify(response));
-									 if(data == 'success'){
+									if(typeof data["error"] == 'undefined'){
 										//adds pot to DOM if ajax call to api was successful.
 										$('#row').append('<div class="col-xs-6 circle" id="'+qr["mac"]+'" data-thickness="3"><span class="imagePot"></span></div>');
 										
@@ -89,12 +89,14 @@ var app = {
 										//removes old plus sign and generates new one at the end.
 										$("#row > .add").remove();
 										$('#row').append('<div class="col-xs-6 add"><i class="fa fa-plus fa-5x" aria-hidden="true"></i></div>');
-									}else if(data == 'failed'){
-										alert("Could not add pot to database.1");
+									}else{
+										//displays any error that might have happened.
+										alert(data["error"]);
 									}
 								 },
 								 error:function(){
-									 alert("Could not add pot to database.2");
+									//ajax failed. (must be code error, should never happen)
+									alert("Unexpected error occured.");
 								 }      
 							});	
 						}else{
@@ -142,14 +144,12 @@ var app = {
 			e.preventDefault();
 			var plant_name = $('#name').val();
 			var plant_selected = $("#plantselect option:selected").val();
-			console.log('clicked on save: '+ potid + ' ' + plant_selected);
 			$('#modal_template').modal('hide');
 			$.ajax({
-				 url:"http://www.jaroeneefting.com/school/stenden/sites/waterupapi/insertplant.php?mac="+potid+"&plantname="+plant_selected,
+				 url:"http://www.jaroeneefting.com/school/stenden/sites/waterupapi/insertplant.php?mac="+potid+"&userpotname="+plant_name+"&plantname="+plant_selected,
 				 dataType: 'jsonp',
 				 success:function(response){
 					var data = JSON.parse(JSON.stringify(response));
-					//alert(JSON.stringify(response));
 					if(data == 'deleted'){
 						enabletracking = 0;
 						
@@ -168,9 +168,11 @@ var app = {
 							value: 0.00,
 							lineCap: 'round',
 							fill: {gradient: ['#4CD2FF', '#006CD9']}
-						});						
-					}else if(data == 'failed'){
-						alert("Could not save configuration.1");
+						});		
+						alert("Succesfully removed plant from pot.");						
+					}else if(typeof data["error"] != 'undefined'){
+						//displays any error that might have happened.
+						alert(data["error"]);
 					}else{
 						//tells the code to listen to mqtt.
 						enabletracking = 1;
@@ -185,8 +187,7 @@ var app = {
 						//add picture of plant 
 						$('.circle .imagePot').remove();
 						$('.circle .realImagePot').remove();
-						$('.circle').append('<span class="realImagePot"></span>');
-						//$('.realImagePot').css('background-image','url(../img/plants/1.png)');
+						$('.circle').append('<span class="realImagePot plantimage'+response["image"]+'"></span>');
 						
 						//add pot name under pot
 						$('.potname').remove();
@@ -199,8 +200,9 @@ var app = {
 					}
 				 },
 				 error:function(){
-					 alert("Could not save configuration.2");
-				 }      
+					//ajax failed. (must be code error, should never happen)
+					alert("Unexpected error occured.");
+				 }       
 			});
 		});
 		
@@ -221,6 +223,7 @@ var app = {
 			$('#modal_template').modal();
 			
 			$(document).on('click', '.deletepot', function (e) {
+				e.preventDefault();
 				//if confirm, fire ajax and remove person/pot association.
 				$('#modal_template').modal('hide');
 				$.ajax({
@@ -228,22 +231,26 @@ var app = {
 					 dataType: 'jsonp',
 					 success:function(response){
 						var data = JSON.parse(JSON.stringify(response));
-						if(data == 'success'){
+						if(typeof data["error"] == 'undefined'){ 
+							via_deleted = 1;
 							//empty current list of potten and retrieve new list.
 							$('#row').empty();
 							$.getpotten();
-							
+							via_deleted = 0;
 							//if there are no pots added by a device, show a plus sign.
 							if($('#row').children().length == 0){
 								$('#row').prepend('<div class="col-xs-6 add"><i class="fa fa-plus fa-5x" aria-hidden="true"></i></div>');
 							}
-						}else if(data == 'failed'){
-							alert("Could not remove the pot.1");
+							alert("Succesfully removed pot.");
+						}else{	
+							//displays any error that might have happened.
+							alert(data["error"]);
 						}
 					 },
 					 error:function(){
-						 alert("Could not remove the pot.2");
-					 }      
+						//ajax failed. (must be code error, should never happen)
+						alert("Unexpected error occured.");
+					 }        
 				});	
 			});
 		});
@@ -257,27 +264,60 @@ var app = {
 				 dataType: 'jsonp',
 				 success:function(response){
 					var data = JSON.parse(JSON.stringify(response));
-					if(response != 'failed'){ 
-						alert(JSON.stringify(response) + " " + data["mac"].length);
-						//loops through all found pots (made it so it actually has support for more than 1 pot even though we only have 1) and add them to the DOM.
-						for (i = 0; i < data["mac"].length; i++) { 
-							$('#row').append('<div class="col-xs-6 circle" id="'+data["mac"][i]+'" data-thickness="3"><span class="imagePot"></span></div>');
+					if(typeof data["error"] == 'undefined'){ 
+						//loops through all found pots and/or plants (made it so it actually has support for more than 1 pot even though we only have 1) and add them to the DOM.
+						if(data["hasplants"] == 0){
+							for (i = 0; i < data["mac"].length; i++) { 
+								$('#row').append('<div class="col-xs-6 circle" id="'+data["mac"][i]+'" data-thickness="3"><span class="imagePot"></span></div>');
+							}
+							
+							$('.circle').circleProgress({
+								startAngle: -Math.PI / 2,
+								value: 0.00,
+								lineCap: 'round',
+								fill: {gradient: ['#4CD2FF', '#006CD9']}
+							});
+						}else{
+							enabletracking = 1;
+							
+							for (i = 0; i < data["mac"].length; i++) { 
+								$('#row').append('<div class="col-xs-6 circle" id="'+data["mac"][i]+'" data-thickness="3"><span class="imagePot"></span></div>');
+							}
+							
+							$('.circle').circleProgress({
+								startAngle: -Math.PI / 2,
+								value: 1.00,
+								lineCap: 'round',
+								fill: {gradient: ['#4CD2FF', '#006CD9']}
+							});	
+						
+							//add picture of plant 
+							$('.circle .imagePot').remove();
+							$('.circle .realImagePot').remove();
+							$('.circle').append('<span class="realImagePot plantimage'+data["image"]+'"></span>');
+							
+							//add pot name under pot
+							$('.potname').remove();
+							if(data["name"].length == 0){
+								$('.circle').append('<span class="potname"></span>');
+							}else{
+								$('.circle').append('<span class="potname">'+data["name"]+'</span>');
+							}
 						}
-						
-						$('.circle').circleProgress({
-							startAngle: -Math.PI / 2,
-							value: 0.00,
-							lineCap: 'round',
-							fill: {gradient: ['#4CD2FF', '#006CD9']}
-						});
-						
+		
 						//removes the old plus sign and adds a new one at the end of all generated pots.
 						$("#row > .add").remove();
 						$('#row').append('<div class="col-xs-6 add"><i class="fa fa-plus fa-5x" aria-hidden="true"></i></div>');
+					}else{
+						//displays any error that might have happened.
+						if(via_deleted != 1){
+							alert(data["error"]);
+						}
 					}
 				 },
 				 error:function(){
-					 alert("Could not retrieve potten.2");
+					//ajax failed. (must be code error, should never happen)
+					alert("Unexpected error occured.");
 				 }      
 			});				
 		}

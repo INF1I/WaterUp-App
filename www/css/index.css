@@ -40,8 +40,27 @@ canvas {
     color: #a3a9c1;
 }
 
+.plantimage1{
+	background-image: url(../img/plants/1.png);	
+}
+
+.plantimage2{
+	background-image: url(../img/plants/2.png);	
+}
+
+.plantimage3{
+	background-image: url(../img/plants/3.png);	
+}
+
+.plantimage4{
+	background-image: url(../img/plants/4.png);	
+}
+
+.plantimage5{
+	background-image: url(../img/plants/5.png);	
+}
+
 .realImagePot{
-    background-image: url(../img/plants/1.png);
     background-repeat: no-repeat;
     background-size: auto 100%;
     text-align: center;
