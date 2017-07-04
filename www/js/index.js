@@ -199,7 +199,8 @@ var app = {
 					}else{
 						//tells the code to listen to mqtt.
 						enabletracking = 1;
-						
+						potname = plant_name;
+						plantname = plant_selected;
 						//puts value of pot at 100 and redraws.
 						$('.circle').circleProgress({ value: 1.00 });
 						$('.circle').circleProgress('redraw');
