@@ -21,6 +21,8 @@ var app = {
 		var via_deleted;
 		var	potname = 999;
 		var	plantname = 999;
+		//var old_value;
+		var new_value;
 		
 		//remove ui loader element that bugs the app.
 		$('.ui-loader').remove();
@@ -33,14 +35,21 @@ var app = {
 		//subscribe to every topic.(# = wildcard)
 		client.subscribe("#");
 
-		//sets waterlevel on pot with plant everytime it receives mqtt messages.
+		//sets waterlevel on pot with plant everytime it receives mqtt messages and makes it red if lower than 35%.
 		client.on("message", function (topic, payload) {
 			if(enabletracking == 1){
 				if(topic != "inf1i-plantpot/subscribe/config/plant-care"){
 					mqtt_received = JSON.parse(payload);
 					waterlevel = mqtt_received["waterLevel"];
-					$('.circle').circleProgress({ value: waterlevel / 100 });
-					$('.circle').circleProgress('redraw');
+					//old_value = $('.circle').circleProgress('value');
+					$('.circle').circleProgress('value', waterlevel / 100);
+					new_value = $('.circle').circleProgress('value');
+					if(new_value < 0.35){
+						$('.circle').circleProgress('fill', { gradient: ['#4CD2FF', '#006CD9'] });
+					}
+											// $('.circle').circleProgress({ value: waterlevel / 100 });
+						// $('.circle').circleProgress('redraw');
+					
 				}
 			}
 		})
@@ -197,7 +206,7 @@ var app = {
 						enabletracking = 1;
 						
 						//puts value of pot at 100 and redraws.
-						$('.circle').circleProgress({ value: 1.00 });
+						$('.circle').circleProgress({ value: 0.15 });
 						$('.circle').circleProgress('redraw');
 						
 						//send plant data to mqtt
@@ -307,7 +316,7 @@ var app = {
 							
 							$('.circle').circleProgress({
 								startAngle: -Math.PI / 2,
-								value: 1.00,
+								value: 0.15,
 								lineCap: 'round',
 								fill: {gradient: ['#4CD2FF', '#006CD9']}
 							});	

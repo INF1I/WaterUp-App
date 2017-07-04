@@ -21,6 +21,7 @@ var app = {
 		var via_deleted;
 		var	potname = 999;
 		var	plantname = 999;
+		var new_value;
 		
 		//remove ui loader element that bugs the app.
 		$('.ui-loader').remove();
@@ -33,14 +34,17 @@ var app = {
 		//subscribe to every topic.(# = wildcard)
 		client.subscribe("#");
 
-		//sets waterlevel on pot with plant everytime it receives mqtt messages.
+		//sets waterlevel on pot with plant everytime it receives mqtt messages and makes it red if lower than 35%.
 		client.on("message", function (topic, payload) {
 			if(enabletracking == 1){
 				if(topic != "inf1i-plantpot/subscribe/config/plant-care"){
 					mqtt_received = JSON.parse(payload);
 					waterlevel = mqtt_received["waterLevel"];
-					$('.circle').circleProgress({ value: waterlevel / 100 });
-					$('.circle').circleProgress('redraw');
+					$('.circle').circleProgress('value', waterlevel / 100);
+					new_value = $('.circle').circleProgress('value');
+					if(new_value < 0.35){
+						$('.circle').circleProgress('fill', { gradient: ['#4CD2FF', '#006CD9'] });
+					}
 				}
 			}
 		})
