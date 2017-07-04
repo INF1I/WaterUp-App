@@ -19,6 +19,8 @@ var app = {
 		var waterlevel;
 		var enabletracking;
 		var via_deleted;
+		var	potname = 999;
+		var	plantname = 999;
 		
 		//remove ui loader element that bugs the app.
 		$('.ui-loader').remove();
@@ -130,12 +132,27 @@ var app = {
 			$('#modal_body_contents').empty();
 			$('.modal-footer').empty();
 			$('#modal_title').append('<center>Configuration</center>');
-			$('#modal_body_contents').append('<form><div class="form-group"><label for="name">Pot name</label><input type="text" class="form-control" id="name" placeholder="Enter a pot name"></div>');
+			if(potname != 999){
+				$('#modal_body_contents').append('<form><div class="form-group"><label for="name">Pot name</label><input type="text" class="form-control" id="name" placeholder="Enter a pot name" value="'+potname+'"></div>');
 
-			$('#modal_body_contents').append('<div class="form-group"><label for="plantselect">Choose a plant</label><select class="form-control" id="plantselect"><option value="0">No plant</option><option value="Primula">Primula</option><option value="Oleander">Oleander</option><option value="Kerstroos/Nieskruid">Kerstroos/Nieskruid</option><option value="Japanse Orchidee">Japanse Orchidee</option></select></div></form>');
+				$('#modal_body_contents').append('<div class="form-group"><label for="plantselect">Choose a plant</label><select class="form-control" id="plantselect"><option value="0">No plant</option><option value="Primula">Primula</option><option value="Oleander">Oleander</option><option value="Kerstroos/Nieskruid">Kerstroos/Nieskruid</option><option value="Japanse Orchidee">Japanse Orchidee</option></select></div></form>');
+			}else{
+				$('#modal_body_contents').append('<form><div class="form-group"><label for="name">Pot name</label><input type="text" class="form-control" id="name" placeholder="Enter a pot name"></div>');
+
+				$('#modal_body_contents').append('<div class="form-group"><label for="plantselect">Choose a plant</label><select class="form-control" id="plantselect"><option value="0">No plant</option><option value="Primula">Primula</option><option value="Oleander">Oleander</option><option value="Kerstroos/Nieskruid">Kerstroos/Nieskruid</option><option value="Japanse Orchidee">Japanse Orchidee</option></select></div></form>');
 			
+			}
 			$('.modal-footer').append('<button type="button" class="btn btn-primary pull-left saveconfig">Save</button><button type="button" class="btn btn-default" data-dismiss="modal">Close</button>');
-
+			
+			$('#plantselect').children().each(function( index ) {
+				if(plantname == $(this).text()){
+					$(this).attr("selected","selected");
+				}
+			});
+			
+			console.log($('#plantselect').children());
+			
+			
 			$('#modal_template').modal();
 		});
 		
@@ -152,6 +169,8 @@ var app = {
 					var data = JSON.parse(JSON.stringify(response));
 					if(data == 'deleted'){
 						enabletracking = 0;
+						potname = 999;
+						plantname = 999;
 						
 						$('.circle .imagePot').remove();
 						$('.circle .realImagePot').remove();
@@ -279,6 +298,8 @@ var app = {
 							});
 						}else{
 							enabletracking = 1;
+							potname = data["name"];
+							plantname = data["plantname"];
 							
 							for (i = 0; i < data["mac"].length; i++) { 
 								$('#row').append('<div class="col-xs-6 circle" id="'+data["mac"][i]+'" data-thickness="3"><span class="imagePot"></span></div>');
@@ -301,7 +322,7 @@ var app = {
 							if(data["name"].length == 0){
 								$('.circle').append('<span class="potname"></span>');
 							}else{
-								$('.circle').append('<span class="potname">'+data["name"]+'</span>');
+								$('.circle').append('<span class="potname">'+potname+'</span>');
 							}
 						}
 		
